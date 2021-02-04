@@ -1,0 +1,150 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HopfieldNeuralNetwork</name>
+    </assembly>
+    <members>
+        <member name="T:HopfieldNeuralNetwork.EnergyEventArgs">
+            <summary>
+            Provides data for the <typeparamref name="EnergyChanged"/> event
+            </summary>
+        </member>
+        <member name="P:HopfieldNeuralNetwork.EnergyEventArgs.Energy">
+            <summary>
+            Gets Energy of Neural network
+            </summary>
+        </member>
+        <member name="M:HopfieldNeuralNetwork.EnergyEventArgs.#ctor(System.Double,System.Int32)">
+            <summary>
+            Initializes a new instance of the <typeparamref name="EnergyEventArgs"/> class with the specified value of Energy
+            </summary>
+            <param name="Energy">The double that represents the value of neural network energy</param>
+            <param name="NeuronIndex">The index f neuron caused energy cahnge</param>
+        </member>
+        <member name="P:HopfieldNeuralNetwork.EnergyEventArgs.NeuronIndex">
+            <summary>
+            Gets index of neuron, which state changing led to energy descrease
+            </summary>
+        </member>
+        <member name="T:HopfieldNeuralNetwork.EnergyChangedHandler">
+            <summary>
+            Represents the method that will handle an event that rise when Energy of Hopfield Neural Network changes.
+            </summary>
+            <param name="sender">The source of the event</param>
+            <param name="e">An <typeparamref name="EnergyEventArgs"/> that contains value of Energy</param>
+            <seealso cref="T:HopfieldNeuralNetwork.Neuron"/>
+            <seealso cref="T:HopfieldNeuralNetwork.NeuralNetwork"/>
+        </member>
+        <member name="T:HopfieldNeuralNetwork.NeuralNetwork">
+            <summary>
+            Defines the class for Hopfield Neural Network
+            </summary>
+            <seealso cref="T:HopfieldNeuralNetwork.Neuron"/>
+        </member>
+        <member name="P:HopfieldNeuralNetwork.NeuralNetwork.N">
+            <summary>
+            Gets number of neurons in neural network
+            </summary>
+            <value>An <typeparamref name="Int32"/> representing a number of neurons</value>
+        </member>
+        <member name="P:HopfieldNeuralNetwork.NeuralNetwork.M">
+            <summary>
+            Gets number of patterns currently stored in interconnection matrix
+            </summary>
+            <value>An <typeparamref name="Int32"/> representing a number of patterns</value>
+            <remarks>The value of M increases every time when new pattern added via AddPattern or AddRandomPattern</remarks>
+        </member>
+        <member name="P:HopfieldNeuralNetwork.NeuralNetwork.Energy">
+            <summary>
+            Gets the value of Neural network energy
+            </summary>
+        </member>
+        <member name="P:HopfieldNeuralNetwork.NeuralNetwork.Matrix">
+            <summary>
+            Gets the interonnection matrix of Neural network
+            </summary>
+        </member>
+        <member name="P:HopfieldNeuralNetwork.NeuralNetwork.Neurons">
+            <summary>
+            Gets current Neural Network state.
+            </summary>
+        </member>
+        <member name="M:HopfieldNeuralNetwork.NeuralNetwork.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the <seealso cref="T:HopfieldNeuralNetwork.NeuralNetwork"/> class
+            </summary>
+            <param name="n">Number of neurons</param>
+        </member>
+        <member name="M:HopfieldNeuralNetwork.NeuralNetwork.AddRandomPattern">
+            <summary>
+            Adds a random pattern to interconnection matrix
+            </summary>
+        </member>
+        <member name="M:HopfieldNeuralNetwork.NeuralNetwork.AddPattern(System.Collections.Generic.List{HopfieldNeuralNetwork.Neuron})">
+            <summary>
+            Adds specified pattern to intercconnection matrix
+            </summary>
+            <param name="Pattern">A list of neurons</param>
+        </member>
+        <member name="M:HopfieldNeuralNetwork.NeuralNetwork.FreeMatrix">
+            <summary>
+            Clears values of interconnection matrix.
+            </summary>
+        </member>
+        <member name="M:HopfieldNeuralNetwork.NeuralNetwork.Run(System.Collections.Generic.List{HopfieldNeuralNetwork.Neuron})">
+            <summary>
+            Sets specified initial state and runs networks dynamics
+            </summary>
+            <param name="initialState">A list of neurons which determines an initional state</param>
+        </member>
+        <member name="E:HopfieldNeuralNetwork.NeuralNetwork.EnergyChanged">
+            <summary>
+            Occurs when the energy of neural network changes
+            </summary>
+        </member>
+        <member name="M:HopfieldNeuralNetwork.NeuralNetwork.OnEnergyChanged(HopfieldNeuralNetwork.EnergyEventArgs)">
+            <summary>
+            Rises the <seealso cref="E:HopfieldNeuralNetwork.NeuralNetwork.EnergyChanged"/> event
+            </summary>
+            <param name="e">An <typeparamref name="EnergyEventArgs"/> that contains value of Energy and index of neuron that couses energy change</param>
+        </member>
+        <member name="T:HopfieldNeuralNetwork.Neuron">
+            <summary>
+            Defines the base class of neuron.
+            </summary>
+        </member>
+        <member name="P:HopfieldNeuralNetwork.Neuron.State">
+            <summary>
+            Gets or sets the state of neuron
+            </summary>
+            <seealso cref="T:HopfieldNeuralNetwork.NeuronStates"/>
+        </member>
+        <member name="M:HopfieldNeuralNetwork.Neuron.#ctor">
+            <summary>
+            Initializes a new instance Neuron class
+            </summary>
+        </member>
+        <member name="M:HopfieldNeuralNetwork.Neuron.ChangeState(System.Double)">
+            <summary>
+            Calculates necessity, and if so, changes state of neuron
+            </summary>
+            <param name="field">Local field actiong on neuron from all other neurons of network</param>
+            <returns>True if during calculations neuron chages its state, false otherwise</returns>
+        </member>
+        <member name="T:HopfieldNeuralNetwork.NeuronStates">
+            <summary>
+            Static class, which describes neuron states.
+            </summary>
+        </member>
+        <member name="F:HopfieldNeuralNetwork.NeuronStates.AlongField">
+            <summary>
+            If neuron orienatated along local field, then it's state is equal to 1
+            </summary>
+        </member>
+        <member name="F:HopfieldNeuralNetwork.NeuronStates.AgainstField">
+            <summary>
+            If neuron orienatated against local field, then it's state is equal to -1
+            </summary>
+        </member>
+    </members>
+</doc>
