@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 using HopfieldNeuralNetwork;
 using ImageProcess2;
@@ -15,12 +16,13 @@ namespace HPNet
     public partial class Form1 : Form
     {
         List<PictureBox> pic_box = new List<PictureBox>(101);
-        BitmapFilter bp = new BitmapFilter();
         List<PictureBox> pattern_list = new List<PictureBox>();
+
+        Bitmap clicked_pattern;
+        
         NeuralNetwork nn;
 
 
-        int[,] matrix;
         int neurons;
         double energy;
         int noPattern;
@@ -100,17 +102,33 @@ namespace HPNet
         {
             nn = new NeuralNetwork(100);
             neurons = nn.N;
-
             nn.EnergyChanged += new EnergyChangedHandler(NN_EnergyChanged);
+            
 
             addPaternToolStripMenuItem.Enabled = true;
 
             CreatePattern();
+            
             UpdateValue();
 
-            matrix = nn.Matrix;
         }
 
+        private void NN_EnergyChanged(object sender, EnergyEventArgs e)
+        {
+            int index = e.NeuronIndex;
+            energyVal.Text = e.Energy.ToString();
+            if (pic_box[index].BackColor == Color.Black)
+            {
+                pic_box[index].BackColor = Color.White;
+            }
+            else if (pic_box[index].BackColor == Color.White)
+            {
+                pic_box[index].BackColor = Color.Black;
+            }
+            pic_box[index].Refresh();
+            energyVal.Refresh();
+            Thread.Sleep(200);
+        }
         private void resetToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach (var a in pic_box)
@@ -139,13 +157,10 @@ namespace HPNet
             pattern_list.Clear();
             noPattern = 0;
             UpdateValue();
+            addPaternToolStripMenuItem.Enabled = false;
+            runNetworkDynamicToolStripMenuItem.Enabled = false;
         }
 
-
-        private void NN_EnergyChanged(object sender, EnergyEventArgs e)
-        {
-            //... 
-        }
 
         private void CreatePattern()
         {
@@ -177,30 +192,22 @@ namespace HPNet
                 for(int j = 0; j < col; j++)
                 {
                     Neuron n = new Neuron();
-                    Color pixel = img.GetPixel(i,j);
+                    Color pixel = img.GetPixel(j,i);
                     if (pixel.B == 255 && pixel.G == 255 && pixel.R == 255)
                     {
                         n.State = NeuronStates.AlongField;
-                        pic_box[offset + i].BackColor = Color.White;
+                        pic_box[offset+j].BackColor = Color.White;
                     }
                     else
                     {
                         n.State = NeuronStates.AgainstField;
-                        pic_box[offset + i].BackColor = Color.Black;
+                        pic_box[offset+j].BackColor = Color.Black;
                     }
                     pattern.Add(n);
-                    offset += 10;
                 }
-                offset = 0;   
+                offset += 10;   
             }
             nn.AddPattern(pattern);
-        }
-        private void displayNeurons(List<Neuron> a)
-        {
-            foreach(var b in a)
-            {
-                Console.WriteLine(b.State);
-            }
         }
 
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
@@ -224,9 +231,6 @@ namespace HPNet
 
             //addPatternOnRemoveMenu(picName);
         }
-
-        
-
         private void CreatePictureBox(string name, Bitmap image, Bitmap originalImage) {
 
             PictureBox temp = new PictureBox();
@@ -245,9 +249,9 @@ namespace HPNet
         {
             PictureBox p = (PictureBox)sender;
             Bitmap b = new Bitmap((Bitmap)p.Tag);
+            clicked_pattern = new Bitmap((Bitmap)p.Tag);
             int disVal=0;
 
-            CreatePattern((Bitmap)p.Tag);
 
             foreach(var a in panel2.Controls.OfType<RadioButton>())
             {
@@ -278,29 +282,40 @@ namespace HPNet
 
         private void runNetworkDynamicToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            List<Neuron> initial = new List<Neuron>(nn.N);
-            int size = nn.N / 10;
-            int offset = 0;
-            for(int i = 0; i < size; i++)
+            if (clicked_pattern != null)
             {
-                for(int j = 0; j < size; j++)
+                List<Neuron> initial = new List<Neuron>(nn.N);
+                int size = nn.N / 10;
+                for (int i = 0; i < size; i++)
                 {
-                    Neuron neuron = new Neuron();
-                    if(pic_box[offset+i].BackColor==Color.Black)
+                    for (int j = 0; j < size; j++)
                     {
-                        neuron.State = NeuronStates.AgainstField;
+                        Neuron neuron = new Neuron();
+                        Color pixel = clicked_pattern.GetPixel(j, i);
+                        if (pixel.R == 0 && pixel.G == 0 && pixel.B == 0)
+                        {
+                            neuron.State = NeuronStates.AgainstField;
+                        }
+                        else if (pixel.R == 255 && pixel.G == 255 && pixel.B == 255)
+                        {
+                            neuron.State = NeuronStates.AlongField;
+                        }
+                        initial.Add(neuron);
                     }
-                    else if(pic_box[offset + i].BackColor == Color.White)
-                    {
-                        neuron.State = NeuronStates.AlongField;
-                    }
-                    initial.Add(neuron);
-                    offset += 10;
                 }
-                offset = 0;
+                nn.Run(initial);
+                clicked_pattern = null;
+                energyVal.Text = nn.Energy.ToString();
             }
-            nn.Run(initial);
-            energyVal.Text = nn.Energy.ToString();
+            else
+            {
+                MessageBox.Show( "No pattern selected.","Error404", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Choose a level and click on a pattern.", "How to set distort level?", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         /*private void MethodEventWrapper(object source, EventArgs e)
