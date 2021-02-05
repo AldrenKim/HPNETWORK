@@ -19,6 +19,7 @@ namespace HPNet
         List<PictureBox> pattern_list = new List<PictureBox>();
         NeuralNetwork nn;
 
+
         int[,] matrix;
         int neurons;
         double energy;
@@ -40,6 +41,8 @@ namespace HPNet
         private void Form1_Load(object sender, EventArgs e)
         {
             AddPicBoxes();
+            addPaternToolStripMenuItem.Enabled = false;
+            runNetworkDynamicToolStripMenuItem.Enabled = false;
             pic_box.Sort(CompareByPicBoxName);
         }
         
@@ -93,72 +96,14 @@ namespace HPNet
             numPatterns.Text = noPattern.ToString();
         }
 
-        private void NN_EnergyChanged(object sender, EnergyEventArgs e)
-        {
-            //... 
-        }
-
-        private void CreatePattern()
-        {
-            int offset = 0;
-            int r = 0;
-            Random rnd = new Random();
-            for (int i = 0; i < nn.N; i++)
-            {
-                for(int j = 0; j < nn.N; j++)
-                {
-                    r = rnd.Next(2);
-                    if(r==0) pic_box[offset+j].BackColor = Color.Black;
-                    else if(r==1) pic_box[offset+j].BackColor = Color.White;
-
-                }
-                offset += 10;
-            }
-        }
-        private void displayNeurons(List<Neuron> a)
-        {
-            foreach(var b in a)
-            {
-                Console.WriteLine(b.State);
-            }
-        }
-
-        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
-        {
-            string picName = "Pattern"+ noPattern;
-
-            Bitmap image = new Bitmap(openFileDialog1.FileName);
-            Bitmap image2= new Bitmap(10,10);
-            //BitmapFilter.RandomJitter(image, 30);
-            BitmapFilter.Scale(ref image, ref image2, 150, 150);
-
-            CreatePictureBox(picName, image2);
-            noPattern++;
-            UpdateValue();
-
-            //addPatternOnRemoveMenu(picName);
-        }
-
-        
-
-        private void CreatePictureBox(string name, Bitmap image) {
-
-            PictureBox temp = new PictureBox();
-            panel1.Controls.Add(temp);
-            temp.Image = image;
-            temp.Location = new Point(9,panel1.Location.Y + (noPattern * 180));
-            temp.Name = name;
-            temp.Size = new System.Drawing.Size(150, 150);
-            pattern_list.Add(temp);
-
-        }
-
         private void createNeurons100ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            nn = new NeuralNetwork(10);
-            neurons = nn.N * nn.N;
+            nn = new NeuralNetwork(100);
+            neurons = nn.N;
 
             nn.EnergyChanged += new EnergyChangedHandler(NN_EnergyChanged);
+
+            addPaternToolStripMenuItem.Enabled = true;
 
             CreatePattern();
             UpdateValue();
@@ -197,7 +142,166 @@ namespace HPNet
         }
 
 
+        private void NN_EnergyChanged(object sender, EnergyEventArgs e)
+        {
+            //... 
+        }
 
+        private void CreatePattern()
+        {
+            int offset = 0;
+            int r = 0;
+            Random rnd = new Random();
+            for (int i = 0; i < 10; i++)
+            {
+                for(int j = 0; j < 10; j++)
+                {
+                    r = rnd.Next(2);
+                    if(r==0) pic_box[offset+j].BackColor = Color.Black;
+                    else if(r==1) pic_box[offset+j].BackColor = Color.White;
+
+                }
+                offset += 10;
+            }
+        }
+        private void CreatePattern(Bitmap img)
+        {
+            int row = img.Height;
+            int col = img.Width;
+            int offset = 0;
+
+            List<Neuron> pattern = new List<Neuron>();
+
+            for(int i = 0; i < row; i++)
+            {
+                for(int j = 0; j < col; j++)
+                {
+                    Neuron n = new Neuron();
+                    Color pixel = img.GetPixel(i,j);
+                    if (pixel.B == 255 && pixel.G == 255 && pixel.R == 255)
+                    {
+                        n.State = NeuronStates.AlongField;
+                        pic_box[offset + i].BackColor = Color.White;
+                    }
+                    else
+                    {
+                        n.State = NeuronStates.AgainstField;
+                        pic_box[offset + i].BackColor = Color.Black;
+                    }
+                    pattern.Add(n);
+                    offset += 10;
+                }
+                offset = 0;   
+            }
+            nn.AddPattern(pattern);
+        }
+        private void displayNeurons(List<Neuron> a)
+        {
+            foreach(var b in a)
+            {
+                Console.WriteLine(b.State);
+            }
+        }
+
+        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+            string picName = "Pattern"+ noPattern;
+
+            Bitmap originalImage = new Bitmap(openFileDialog1.FileName);
+            Bitmap image2= new Bitmap(10,10);
+            Bitmap temp = new Bitmap(originalImage);
+
+            BitmapFilter.Scale(ref temp, ref image2, 150, 150);
+
+            CreatePictureBox(picName, image2, originalImage);
+            noPattern++;
+
+
+            runNetworkDynamicToolStripMenuItem.Enabled = true;
+
+            UpdateValue();
+
+
+            //addPatternOnRemoveMenu(picName);
+        }
+
+        
+
+        private void CreatePictureBox(string name, Bitmap image, Bitmap originalImage) {
+
+            PictureBox temp = new PictureBox();
+            panel1.Controls.Add(temp);
+            temp.Image = image;
+            temp.Location = new Point(9,panel1.Location.Y + (noPattern * 180));
+            temp.Name = name;
+            temp.Tag = originalImage;
+            temp.Size = new System.Drawing.Size(150, 150);
+            temp.Click += new EventHandler(pattern_click);
+            pattern_list.Add(temp);
+
+        }
+
+        private void pattern_click(object sender, EventArgs e)
+        {
+            PictureBox p = (PictureBox)sender;
+            Bitmap b = new Bitmap((Bitmap)p.Tag);
+            int disVal=0;
+
+            CreatePattern((Bitmap)p.Tag);
+
+            foreach(var a in panel2.Controls.OfType<RadioButton>())
+            {
+                if (a.Checked == true)
+                {
+                    string[] s = a.Text.Split('%');
+                    disVal = Convert.ToInt16(s[0]);
+                    switch (disVal)
+                    {
+                        case 25: disVal = 80;
+                            break;
+                        case 100: disVal = 20;
+                            break;
+                        default: ;
+                            break;
+                    }
+                }
+            }
+
+            foreach (var a in panel2.Controls.OfType<RadioButton>())
+            {
+                a.Checked = false;
+            }
+
+            BitmapFilter.RandomJitter(b, (Int16)disVal);
+            CreatePattern(b);
+        }
+
+        private void runNetworkDynamicToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<Neuron> initial = new List<Neuron>(nn.N);
+            int size = nn.N / 10;
+            int offset = 0;
+            for(int i = 0; i < size; i++)
+            {
+                for(int j = 0; j < size; j++)
+                {
+                    Neuron neuron = new Neuron();
+                    if(pic_box[offset+i].BackColor==Color.Black)
+                    {
+                        neuron.State = NeuronStates.AgainstField;
+                    }
+                    else if(pic_box[offset + i].BackColor == Color.White)
+                    {
+                        neuron.State = NeuronStates.AlongField;
+                    }
+                    initial.Add(neuron);
+                    offset += 10;
+                }
+                offset = 0;
+            }
+            nn.Run(initial);
+            energyVal.Text = nn.Energy.ToString();
+        }
 
         /*private void MethodEventWrapper(object source, EventArgs e)
         {

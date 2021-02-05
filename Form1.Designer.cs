@@ -146,6 +146,12 @@
             this.pictureBox76 = new System.Windows.Forms.PictureBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.radioButton3 = new System.Windows.Forms.RadioButton();
+            this.radioButton4 = new System.Windows.Forms.RadioButton();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.asdasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
@@ -252,6 +258,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox85)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox76)).BeginInit();
             this.groupBox3.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -317,6 +324,7 @@
             this.runNetworkDynamicToolStripMenuItem.Name = "runNetworkDynamicToolStripMenuItem";
             this.runNetworkDynamicToolStripMenuItem.Size = new System.Drawing.Size(135, 20);
             this.runNetworkDynamicToolStripMenuItem.Text = "Run network dynamic";
+            this.runNetworkDynamicToolStripMenuItem.Click += new System.EventHandler(this.runNetworkDynamicToolStripMenuItem_Click);
             // 
             // groupBox1
             // 
@@ -1504,6 +1512,8 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.panel2);
+            this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Controls.Add(this.panel1);
             this.groupBox3.Location = new System.Drawing.Point(324, 37);
             this.groupBox3.Name = "groupBox3";
@@ -1512,13 +1522,73 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Patterns of NN";
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.radioButton3);
+            this.panel2.Controls.Add(this.radioButton4);
+            this.panel2.Controls.Add(this.radioButton2);
+            this.panel2.Controls.Add(this.radioButton1);
+            this.panel2.Location = new System.Drawing.Point(7, 432);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(193, 26);
+            this.panel2.TabIndex = 11;
+            // 
+            // radioButton3
+            // 
+            this.radioButton3.AutoSize = true;
+            this.radioButton3.Location = new System.Drawing.Point(93, 2);
+            this.radioButton3.Name = "radioButton3";
+            this.radioButton3.Size = new System.Drawing.Size(45, 17);
+            this.radioButton3.TabIndex = 9;
+            this.radioButton3.Text = "75%";
+            this.radioButton3.UseVisualStyleBackColor = true;
+            // 
+            // radioButton4
+            // 
+            this.radioButton4.AutoSize = true;
+            this.radioButton4.Location = new System.Drawing.Point(138, 3);
+            this.radioButton4.Name = "radioButton4";
+            this.radioButton4.Size = new System.Drawing.Size(51, 17);
+            this.radioButton4.TabIndex = 10;
+            this.radioButton4.Text = "100%";
+            this.radioButton4.UseVisualStyleBackColor = true;
+            // 
+            // radioButton2
+            // 
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Location = new System.Drawing.Point(47, 2);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(45, 17);
+            this.radioButton2.TabIndex = 8;
+            this.radioButton2.Text = "50%";
+            this.radioButton2.UseVisualStyleBackColor = true;
+            // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Location = new System.Drawing.Point(3, 2);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(45, 17);
+            this.radioButton1.TabIndex = 7;
+            this.radioButton1.Text = "25%";
+            this.radioButton1.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(48, 457);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(99, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Set Distortion Level";
+            // 
             // panel1
             // 
             this.panel1.AutoScroll = true;
             this.panel1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.panel1.Location = new System.Drawing.Point(9, 18);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(191, 445);
+            this.panel1.Size = new System.Drawing.Size(191, 408);
             this.panel1.TabIndex = 0;
             // 
             // asdasToolStripMenuItem
@@ -1645,6 +1715,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox85)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox76)).EndInit();
             this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1772,6 +1845,12 @@
         private System.Windows.Forms.ToolStripMenuItem addPaternToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem asdasToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem removeAllToolStripMenuItem;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.RadioButton radioButton4;
+        private System.Windows.Forms.RadioButton radioButton3;
+        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.Panel panel2;
     }
 }
 
