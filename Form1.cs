@@ -136,18 +136,10 @@ namespace HPNet
             noPattern++;
             UpdateValue();
 
-            addPatternOnRemoveMenu(picName);
+            //addPatternOnRemoveMenu(picName);
         }
 
-        private void addPatternOnRemoveMenu(string name)
-        {
-            ToolStripMenuItem tool = new ToolStripMenuItem();
-            tool.Name = name;
-            tool.Size = new System.Drawing.Size(182, 22);
-            tool.Text = name;
-            tool.Click += new System.EventHandler(MethodEventWrapper);
-            removePatternToolStripMenuItem.DropDownItems.Add(tool);
-        }
+        
 
         private void CreatePictureBox(string name, Bitmap image) {
 
@@ -182,6 +174,7 @@ namespace HPNet
             neurons = 0;
             energy = 0;
             noPattern = 0;
+            removeAll();
             UpdateValue();
         }
 
@@ -190,7 +183,23 @@ namespace HPNet
             openFileDialog1.ShowDialog();
         }
 
-        private void MethodEventWrapper(object source, EventArgs e)
+        private void removeAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            removeAll();
+        }
+
+        private void removeAll()
+        {
+            panel1.Controls.Clear();
+            pattern_list.Clear();
+            noPattern = 0;
+            UpdateValue();
+        }
+
+
+
+
+        /*private void MethodEventWrapper(object source, EventArgs e)
         {
             ToolStripMenuItem d = (ToolStripMenuItem)source;
 
@@ -204,5 +213,16 @@ namespace HPNet
             noPattern--;
             UpdateValue();
         }
+        
+         private void addPatternOnRemoveMenu(string name)
+        {
+            ToolStripMenuItem tool = new ToolStripMenuItem();
+            tool.Name = name;
+            tool.Size = new System.Drawing.Size(182, 22);
+            tool.Text = name;
+            tool.Click += new System.EventHandler(MethodEventWrapper);
+            removePatternToolStripMenuItem.DropDownItems.Add(tool);
+        } 
+        */
     }
 }

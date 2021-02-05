@@ -1,7 +1,6 @@
 D:\Documents\Aldren-Studies\Coded_Programs\C#_Projects\HPNet\HPNet\HPNet\bin\Debug\HPNet.exe.config
 D:\Documents\Aldren-Studies\Coded_Programs\C#_Projects\HPNet\HPNet\HPNet\bin\Debug\HPNet.exe
 D:\Documents\Aldren-Studies\Coded_Programs\C#_Projects\HPNet\HPNet\HPNet\bin\Debug\HPNet.pdb
-D:\Documents\Aldren-Studies\Coded_Programs\C#_Projects\HPNet\HPNet\HPNet\bin\Debug\HopfieldNeuralNetwork.dll
 D:\Documents\Aldren-Studies\Coded_Programs\C#_Projects\HPNet\HPNet\HPNet\bin\Debug\HopfieldNeuralNetwork.pdb
 D:\Documents\Aldren-Studies\Coded_Programs\C#_Projects\HPNet\HPNet\HPNet\bin\Debug\HopfieldNeuralNetwork.xml
 D:\Documents\Aldren-Studies\Coded_Programs\C#_Projects\HPNet\HPNet\HPNet\obj\Debug\HPNet.csprojAssemblyReference.cache

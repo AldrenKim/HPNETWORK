@@ -34,7 +34,7 @@
             this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addPaternToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addPaternToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.removePatternToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runNetworkDynamicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.energyVal = new System.Windows.Forms.Label();
@@ -293,7 +293,7 @@
             // 
             this.addPaternToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addPaternToolStripMenuItem1,
-            this.removePatternToolStripMenuItem});
+            this.removeAllToolStripMenuItem});
             this.addPaternToolStripMenuItem.Name = "addPaternToolStripMenuItem";
             this.addPaternToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
             this.addPaternToolStripMenuItem.Text = "Pattern";
@@ -301,15 +301,16 @@
             // addPaternToolStripMenuItem1
             // 
             this.addPaternToolStripMenuItem1.Name = "addPaternToolStripMenuItem1";
-            this.addPaternToolStripMenuItem1.Size = new System.Drawing.Size(158, 22);
+            this.addPaternToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.addPaternToolStripMenuItem1.Text = "Add pattern";
             this.addPaternToolStripMenuItem1.Click += new System.EventHandler(this.addPaternToolStripMenuItem1_Click);
             // 
-            // removePatternToolStripMenuItem
+            // removeAllToolStripMenuItem
             // 
-            this.removePatternToolStripMenuItem.Name = "removePatternToolStripMenuItem";
-            this.removePatternToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
-            this.removePatternToolStripMenuItem.Text = "Remove pattern";
+            this.removeAllToolStripMenuItem.Name = "removeAllToolStripMenuItem";
+            this.removeAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.removeAllToolStripMenuItem.Text = "Remove all";
+            this.removeAllToolStripMenuItem.Click += new System.EventHandler(this.removeAllToolStripMenuItem_Click);
             // 
             // runNetworkDynamicToolStripMenuItem
             // 
@@ -1769,8 +1770,8 @@
         private System.Windows.Forms.ToolStripMenuItem createNeurons100ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem resetToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addPaternToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem removePatternToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem asdasToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removeAllToolStripMenuItem;
     }
 }
 
